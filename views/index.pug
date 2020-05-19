@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  h1= title
+  h3 Welcome to #{title} sharing service
+  if number
+    p You are logged in using number: #{number}
+    a(href="/users/logout")
+      button.ghost-button(type="button") Logout
+  else
+    form.form-inline(action='/users/verify', method='post')
+      div.form-group.ml-2
+        label.ml-2 Register your number
+        input.form-control.ml-2(name='number', type='text', placeholder='Enter your number', required='')
+      button.btn.btn-primary.ml-2(type='submit') Get Verification Code
+  script.
+    const callButton = $("#call-btn");

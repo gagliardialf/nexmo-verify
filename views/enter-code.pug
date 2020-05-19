@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  h1= title
+  h3 You will receive your verification code in a while
+
+  form(action='/users/check-code', method='post')
+      input(name='request_id', type='hidden', value=request_id)
+      input(name='number', type='hidden', value=number)
+      input.ghost-input(name='code', type='text', placeholder='Enter your verification number', required='')
+      input.ghost-button(type='submit', value='Send')
+  script.
