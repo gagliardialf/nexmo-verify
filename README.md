@@ -14,5 +14,5 @@ Once they are registered, you want your users to send SMS to each other using th
 2. install the packages (`npm i`)
 3. run the application (`npm start`)
 4. expose the application on the Internet with ngrok
-5. set the incoming-sms webhook address `http://(ngrok_addr)/incoming-sms`
+5. in the Nexmo console, set the incoming-sms webhook address `http://(ngrok_addr)/incoming-sms`
 6. browse http://localhost:3000 in order to perform verification. When the second user logs in, a chat using the proxy number will be automatically created (for testing purposes, the logged users can have the same phone number)
