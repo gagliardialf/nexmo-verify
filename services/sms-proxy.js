@@ -3,14 +3,8 @@
 const Nexmo = require('nexmo');
 
 class SmsProxy {
-
-    constructor() {
-        this.nexmo = new Nexmo({
-            apiKey: process.env.NEXMO_API_KEY,
-            apiSecret: process.env.NEXMO_API_SECRET
-        }, {
-                debug: true
-        });
+    constructor(nexmoClient) {
+        this.nexmo = nexmoClient
         this.numbers = [];
     }
 
@@ -31,7 +25,7 @@ class SmsProxy {
             userA: userANumber,
             userB: userBNumber
         };
-
+        console.log(`Chat created between user A: ${userANumber} and user B: ${userBNumber}`);
         this.sendSMS();
     }
 
@@ -52,7 +46,7 @@ class SmsProxy {
 
     getDestinationRealNumber(from) {
         let destinationRealNumber = null;
-
+        console.log(`current chat: ${JSON.stringify(this.chat)}`);
         // Use `from` numbers to work out who is sending to whom
         const fromUserA = (from === this.chat.userA);
         const fromUserB = (from === this.chat.userB);

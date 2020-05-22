@@ -1,16 +1,8 @@
 'use strict'
 
-const Nexmo = require('nexmo');
-
 class SmsSender {
-
-    constructor() {
-        this.nexmo = new Nexmo({
-            apiKey: process.env.NEXMO_API_KEY,
-            apiSecret: process.env.NEXMO_API_SECRET
-        }, {
-                debug: true
-        });
+    constructor(nexmoClient) {
+        this.nexmo = nexmoClient
     }
 
     sendSMS(from, to, text) {

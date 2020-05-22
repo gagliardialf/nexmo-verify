@@ -5,11 +5,28 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+require('dotenv').config();
 
-const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
-const incomingSmsRouter = require('./routes/incoming-sms');
-const sendSmsRouter = require('./routes/send-sms');
+const Nexmo = require('nexmo');
+const nexmo = new Nexmo({
+    apiKey: process.env.NEXMO_API_KEY,
+    apiSecret: process.env.NEXMO_API_SECRET
+    }, {
+        debug: true
+    });
+const Proxy = require('./services/sms-proxy'),
+  smsProxy = new Proxy(nexmo);
+const Sender = require('./services/sms-sender'),
+  sender = new Sender(nexmo);
+
+const IndexRouter = require('./routes/index'),
+    indexRoute = new IndexRouter();
+const UsersRouter = require('./routes/users'),
+    usersRoute = new UsersRouter(nexmo, smsProxy);
+const IncomingSmsRouter = require('./routes/incoming-sms'),
+    incomingSmsRoute = new IncomingSmsRouter(smsProxy);
+const SendSmsRouter = require('./routes/send-sms'),
+    sendSmsRoute = new SendSmsRouter(sender);
 
 const app = express();
 
@@ -32,10 +49,10 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }));
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/incoming-sms', incomingSmsRouter);
-app.use('/send-sms', sendSmsRouter);
+app.use('/', indexRoute.router);
+app.use('/users', usersRoute.router);
+app.use('/incoming-sms', incomingSmsRoute.router);
+app.use('/send-sms', sendSmsRoute.router);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
