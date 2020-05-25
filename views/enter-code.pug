@@ -2,6 +2,7 @@ extends layout
 
 block content
   h1= title
+  label(id='error', class='hidden') #{error}
   h3 You will receive your verification code in a while
 
   form.form-inline(action='/users/check-code', method='post')
@@ -12,3 +13,6 @@ block content
       input.form-control.ml-2(name='code', type='text', required='')
     button.btn.btn-primary.ml-2(type='submit') Send
   script.
+    var error = $("#error").text();
+    console.log(error)
+    if (error !== '') alert(error);

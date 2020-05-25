@@ -23,7 +23,7 @@ module.exports = function (nexmo, smsProxy) {
                     */
                     res.render('enter-code', { request_id: verifyRequestId, number: verifyRequestNumber});
                 } else {
-                    res.render('index', { title: process.env.NEXMO_BRAND_NAME });
+                    res.render('index', { title: process.env.NEXMO_BRAND_NAME, error: result.error_text });
                 }
             }
         });
@@ -37,7 +37,7 @@ module.exports = function (nexmo, smsProxy) {
         }, (err, result) => {
             if (err) {
                 console.error(err);
-                res.redirect('/')
+                res.render('enter-code', { request_id: verifyRequestId, number: verifyRequestNumber, error: err.message});
             } else {
                 console.log(`result: ${JSON.stringify(result)}`);
                 if (result.status == 0) {
@@ -54,7 +54,7 @@ module.exports = function (nexmo, smsProxy) {
                         res.redirect('/')
                     })
                 } else {
-                    res.redirect('/')
+                    res.render('enter-code', { request_id: verifyRequestId, number: verifyRequestNumber, error: result.error_text});
                 }
             }
         });

@@ -2,6 +2,7 @@ extends layout
 
 block content
   h1= title
+  label(id='error', class='hidden') #{error}
   h3 Welcome to #{title} sharing service
   if number
     p You are logged in using number: #{number}
@@ -14,4 +15,6 @@ block content
         input.form-control.ml-2(name='number', type='text', placeholder='Enter your number', required='')
       button.btn.btn-primary.ml-2(type='submit') Get Verification Code
   script.
-    const callButton = $("#call-btn");
+    var error = $("#error").text();
+    console.log(error)
+    if (error !== '') alert(error);
