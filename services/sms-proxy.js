@@ -10,14 +10,16 @@ class SmsProxy {
 
     addUser(number) {
         this.numbers.push(number);
-        console.log(JSON.stringify(this.numbers))
+        console.log(`Registered users: ${JSON.stringify(this.numbers)}`);
         if (this.numbers.length == 2) {
             this.createChat(this.numbers[0], this.numbers[1]);
         }
     }
 
-    removeUser(number) {       
-        console.log('remove user: ' + number)
+    removeUser(number) {
+        console.log('remove user: ' + number);
+        this.numbers = this.numbers.filter((value) => { return value !== number; });
+        console.log(`Registered users: ${JSON.stringify(this.numbers)}`);
     }
 
     createChat(userANumber, userBNumber) {
